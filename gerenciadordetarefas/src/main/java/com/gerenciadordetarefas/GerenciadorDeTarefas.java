@@ -13,7 +13,7 @@ public class GerenciadorDeTarefas {
     }
 
     public Tarefa criarTarefa(String titulo, String descricao, Date dataDeVencimento, Prioridade prioridade) {
-        if (titulo.isEmpty() || descricao.isEmpty() || dataDeVencimento.toString().isEmpty() || !isValidDate(dataDeVencimento)) {
+        if (titulo.isEmpty() || descricao.isEmpty() || dataDeVencimento == null || prioridade == null || !isValidDate(dataDeVencimento)) {
             return null;
         }
 
@@ -28,6 +28,6 @@ public class GerenciadorDeTarefas {
 
     private boolean isValidDate(Date date) {
         Date dataAtual = new Date();
-        return date.after(dataAtual);
+        return !date.before(dataAtual);
     }
 }
