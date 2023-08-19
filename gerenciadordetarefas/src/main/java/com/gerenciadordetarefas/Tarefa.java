@@ -1,12 +1,14 @@
 package com.gerenciadordetarefas;
 
+import java.util.Date;
+
 class Tarefa {
     private String titulo;
     private String descricao;
-    private String dataDeVencimento;
+    private Date dataDeVencimento;
     private Prioridade prioridade;
 
-    public Tarefa(String titulo, String descricao, String dataDeVencimento, Prioridade prioridade) {
+    public Tarefa(String titulo, String descricao, Date dataDeVencimento, Prioridade prioridade) {
         this.titulo = titulo;
         this.descricao = descricao;
         this.dataDeVencimento = dataDeVencimento;
@@ -29,11 +31,11 @@ class Tarefa {
       this.descricao = descricao;
     }
 
-    public String getDataDeVencimento() {
+    public Date getDataDeVencimento() {
       return dataDeVencimento;
     }
 
-    public void setDataDeVencimento(String dataDeVencimento) {
+    public void setDataDeVencimento(Date dataDeVencimento) {
       this.dataDeVencimento = dataDeVencimento;
     }
 
