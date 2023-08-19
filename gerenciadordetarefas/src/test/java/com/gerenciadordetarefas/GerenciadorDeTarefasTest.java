@@ -60,4 +60,15 @@ public class GerenciadorDeTarefasTest {
         Tarefa tarefaPassado = gerenciador.criarTarefa("Título", "Descrição", dataVencimentoPassado, Prioridade.ALTA);
         assertNull("A tarefa deveria ser nula devido à data de vencimento no passado", tarefaPassado);
     }
+
+    @Test
+    public void testCriarTarefaComPrioridadeInvalida() {
+        GerenciadorDeTarefas gerenciador = new GerenciadorDeTarefas();
+
+        Date dataVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+        
+        // Tentar criar uma tarefa com prioridade inválida
+        Tarefa tarefaInvalida = gerenciador.criarTarefa("Título", "Descrição", dataVencimento, null);
+        assertNull("A tarefa deveria ser nula devido à prioridade inválida", tarefaInvalida);
+    }
 }
