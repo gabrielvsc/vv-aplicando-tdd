@@ -1,0 +1,10 @@
+# Ignorar arquivos e diretórios específicos do Maven
+target/
+
+# Ignorar arquivos específicos do ambiente de desenvolvimento do VS Code
+.vscode/
+
+# Ignorar arquivos temporários
+*.swp
+*.swo
+*.tmp
