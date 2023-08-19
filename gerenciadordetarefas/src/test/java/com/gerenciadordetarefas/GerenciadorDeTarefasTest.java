@@ -2,6 +2,7 @@ package com.gerenciadordetarefas;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
@@ -31,5 +32,16 @@ public class GerenciadorDeTarefasTest {
       assertEquals("Descrição incorreta", descricao, tarefa.getDescricao());
       assertEquals("Data de vencimento incorreta", dataVencimento, tarefa.getDataDeVencimento());
       assertEquals("Prioridade incorreta", prioridade, tarefa.getPrioridade());
+    }
+
+    @Test
+    public void testCriarTarefaComCamposEmBranco() {
+        GerenciadorDeTarefas gerenciador = new GerenciadorDeTarefas();
+
+        // Tentar criar uma tarefa com campos em branco
+        Tarefa tarefa = gerenciador.criarTarefa("", "", "", Prioridade.ALTA);
+
+        // Verificar se a tarefa não foi criada
+        assertNull("A tarefa deveria ser nula devido aos campos em branco", tarefa);
     }
 }
