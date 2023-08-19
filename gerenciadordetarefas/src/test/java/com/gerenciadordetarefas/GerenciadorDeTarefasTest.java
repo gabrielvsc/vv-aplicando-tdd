@@ -44,4 +44,20 @@ public class GerenciadorDeTarefasTest {
         // Verificar se a tarefa não foi criada
         assertNull("A tarefa deveria ser nula devido aos campos em branco", tarefa);
     }
+
+    @Test
+    public void testCriarTarefaComDataInvalida() {
+        GerenciadorDeTarefas gerenciador = new GerenciadorDeTarefas();
+
+        String dataVencimentoPassado = "2023-07-01"; // Exemplo de data no passado
+        String dataVencimentoInvalida = "2023-02-30"; // Exemplo de data inválida (não existe)
+
+        // Tentar criar uma tarefa com data de vencimento no passado
+        Tarefa tarefaPassado = gerenciador.criarTarefa("Título", "Descrição", dataVencimentoPassado, Prioridade.ALTA);
+        assertNull("A tarefa deveria ser nula devido à data de vencimento no passado", tarefaPassado);
+
+        // Tentar criar uma tarefa com data de vencimento inválida
+        Tarefa tarefaInvalida = gerenciador.criarTarefa("Título", "Descrição", dataVencimentoInvalida, Prioridade.ALTA);
+        assertNull("A tarefa deveria ser nula devido à data de vencimento inválida", tarefaInvalida);
+    }
 }
