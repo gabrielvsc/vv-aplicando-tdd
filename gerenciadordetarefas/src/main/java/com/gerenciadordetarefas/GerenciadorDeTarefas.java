@@ -12,6 +12,10 @@ public class GerenciadorDeTarefas {
     }
 
     public Tarefa criarTarefa(String titulo, String descricao, String dataVencimento, Prioridade prioridade) {
+        if (titulo.isEmpty() || descricao.isEmpty() || dataVencimento.isEmpty()) {
+            return null;
+        }
+
         Tarefa novaTarefa = new Tarefa(titulo, descricao, dataVencimento, prioridade);
         listaDeTarefas.add(novaTarefa);
         return novaTarefa;
