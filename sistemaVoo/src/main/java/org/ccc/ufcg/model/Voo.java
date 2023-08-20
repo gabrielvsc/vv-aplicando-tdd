@@ -6,8 +6,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Voo {
+
+    private String codigo;
     private LocalDate data;
     private LocalDateTime hora;
     private BigDecimal valor;
@@ -22,14 +25,22 @@ public class Voo {
     public Voo() {
     }
 
-    public Voo(LocalDate data, LocalDateTime hora, BigDecimal valor, String origem, String destino, int numeroPassageiros) {
+    public Voo(String codigo, LocalDate data, LocalDateTime hora, BigDecimal valor, String origem, String destino, int numeroPassageiros) {
+        this.codigo = codigo;
         this.data = data;
         this.hora = hora;
         this.valor = valor;
         this.origem = origem;
         this.destino = destino;
         this.numeroPassageiros = numeroPassageiros;
-        this.isLotado = false;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public LocalDate getData() {
@@ -102,5 +113,18 @@ public class Voo {
 
     public void setPassagems(List<Passagem> passagems) {
         this.passagems = passagems;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Voo voo = (Voo) o;
+        return Objects.equals(codigo, voo.codigo) && Objects.equals(data, voo.data) && Objects.equals(hora, voo.hora);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(codigo, data, hora);
     }
 }
