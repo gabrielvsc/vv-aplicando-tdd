@@ -2,11 +2,10 @@ package org.ccc.ufcg.service;
 
 import org.ccc.ufcg.model.Passageiro;
 import org.ccc.ufcg.model.Voo;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.ccc.ufcg.repository.BaseDeDados;
+import org.junit.jupiter.api.*;
 
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,18 +27,23 @@ class UserServiceImplTest {
         adminService = new AdminServiceImlp();
         userService = new UserServiceImpl();
         hora = LocalDateTime.now();
-        voo = new Voo("SPPB001", LocalDate.now(), hora, BigDecimal.valueOf(100.10), "Compina Grande PB","São Paulo SP", 80);
-        adminService.cadastrarVoo(voo);
-
-        vo2 = new Voo("RNGO001", LocalDate.now(), hora, BigDecimal.valueOf(100.10), "Natal RN", "Goiania GO", 1);
-        adminService.cadastrarVoo(vo2);
     }
 
     @BeforeEach
     void setup() {
+        voo = new Voo("SPPB001", LocalDate.now(), hora, BigDecimal.valueOf(100.10), "Compina Grande PB","São Paulo SP", 80);
+        adminService.cadastrarVoo(voo);
+
+        vo2 = new Voo("RNGO001", LocalDate.now(), hora, BigDecimal.valueOf(100.10), "Natal RN", "Goiania GO", 1);
 
         passageiro1 = new Passageiro("Ana", "83999888888", "ana@email.com");
         passageiro2 = new Passageiro("Jose", "8399988888", "jose@email.com");
+    }
+
+    @AfterEach
+    void after() {
+        BaseDeDados.getVoos().removeAll(Arrays.asList(voo, vo2));
+        BaseDeDados.getPassageiros().removeAll(Arrays.asList(passageiro1, passageiro2));
     }
 
     @Test
@@ -57,6 +61,7 @@ class UserServiceImplTest {
     @Test
     void devefalharAoTentarReservarVooComLimiteDeVagasExcedidas() throws IllegalAccessException {
         List<Passageiro> passageiros = Arrays.asList(passageiro1, passageiro2);
+        adminService.cadastrarVoo(vo2);
 
         IllegalArgumentException excecaoLancada = Assertions.assertThrows(
                 IllegalArgumentException.class,
@@ -65,5 +70,10 @@ class UserServiceImplTest {
 
         String mensagemEsperada = "Limite de vagas excedido";
         Assertions.assertEquals(mensagemEsperada, excecaoLancada.getMessage());
+    }
+
+    @Test
+    void deveCancelarReservaComSucesso() {
+        Assertions.assertTrue(userService.cancelarVoo(passageiro1, voo));
     }
 }

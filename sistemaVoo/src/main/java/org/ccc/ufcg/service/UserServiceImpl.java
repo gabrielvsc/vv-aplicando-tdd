@@ -1,6 +1,7 @@
 package org.ccc.ufcg.service;
 
 import org.ccc.ufcg.model.Passageiro;
+import org.ccc.ufcg.model.Passagem;
 import org.ccc.ufcg.model.Voo;
 import org.ccc.ufcg.repository.BaseDeDados;
 
@@ -23,6 +24,19 @@ public class UserServiceImpl implements UserService{
         }
 
         voo.getPassageiros().addAll(passageiros);
-        return true;
+
+        for(int i = 0; i < BaseDeDados.getVoos().size(); i++ ) {
+            if(BaseDeDados.getVoos().get(i).equals(voo)) {
+                BaseDeDados.getVoos().add(i, voo);
+
+                passageiros.forEach(passageiro -> {
+                    Passagem passagem = new Passagem(passageiro, voo);
+                    BaseDeDados.getPassagems().add(passagem);
+                });
+                return true;
+            }
+        }
+
+        throw new IllegalArgumentException("Esse voo não existe");
     }
 }
