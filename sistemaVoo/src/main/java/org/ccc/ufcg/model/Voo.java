@@ -18,7 +18,7 @@ public class Voo {
     private String destino;
     private int numeroPassageiros;
     private int numeroAcentosReservados;
-    private List<Passagem> passagems = new ArrayList<>();
+    private List<Passageiro> passageiros = new ArrayList<>();
     private Boolean isLotado;
 
 
@@ -107,12 +107,12 @@ public class Voo {
         isLotado = lotado;
     }
 
-    public List<Passagem> getPassagems() {
-        return passagems;
+    public List<Passageiro> getPassageiros() {
+        return passageiros;
     }
 
-    public void setPassagems(List<Passagem> passagems) {
-        this.passagems = passagems;
+    public void setPassageiros(List<Passageiro> passageiros) {
+        this.passageiros = passageiros;
     }
 
     public int getAcentosVazios() {

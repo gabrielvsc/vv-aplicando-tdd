@@ -17,7 +17,12 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Boolean reservarVoo(List<Passageiro> passageiros, Voo voo) {
-        return null;
+    public Boolean reservarVoo(List<Passageiro> passageiros, Voo voo) throws IllegalAccessException {
+        if(voo.getAcentosVazios() < passageiros.size()) {
+            throw new IllegalArgumentException("Limite de vagas excedido");
+        }
+
+        voo.getPassageiros().addAll(passageiros);
+        return true;
     }
 }
