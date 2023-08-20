@@ -1,7 +1,6 @@
 package com.gerenciadordetarefas;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -115,6 +114,27 @@ public class GerenciadorDeTarefasTest {
 
         // Verificar se a data de vencimento foi atualizada corretamente
         assertEquals("Data de vencimento não foi atualizada corretamente", novaDataDeVencimento, tarefaInicial.getDataDeVencimento());
+
+        // Verificar se os outros detalhes da tarefa permaneceram inalterados
+        assertEquals("O título foi alterado erroneamente", "Título Inicial", tarefaInicial.getTitulo());
+    }
+
+    @Test
+    public void testAtualizarPrioridadeTarefa() {
+        GerenciadorDeTarefas gerenciador = new GerenciadorDeTarefas();
+
+        Date dataVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+
+        // Criar uma tarefa inicial com uma prioridade
+        Tarefa tarefaInicial = gerenciador.gerenciadorDeTarefasService.criarTarefa("Título Inicial", "Descrição", dataVencimento, Prioridade.ALTA);
+        String tarefaId = tarefaInicial.getId();
+        assertNotNull("A tarefa inicial não deveria ser nula", tarefaInicial);
+        assertEquals("Prioridade inicial incorreta", Prioridade.ALTA, tarefaInicial.getPrioridade());
+
+        // Atualizar a prioridade da tarefa utilizando o serviço
+        Prioridade novaPrioridade = Prioridade.BAIXA;
+        gerenciador.gerenciadorDeTarefasService.atualizarPrioridadeTarefa(tarefaId, novaPrioridade);
+        assertEquals("Prioridade não foi atualizada corretamente", novaPrioridade, tarefaInicial.getPrioridade());
 
         // Verificar se os outros detalhes da tarefa permaneceram inalterados
         assertEquals("O título foi alterado erroneamente", "Título Inicial", tarefaInicial.getTitulo());
