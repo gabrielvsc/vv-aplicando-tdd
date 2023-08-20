@@ -87,9 +87,30 @@ class UserServiceImplTest {
     void deveGerarConfirmacaoDeReserva() {
         vo2.getPassageiros().add(passageiro1);
         BaseDeDados.getVoos().add(vo2);
-
         String msgEsperada =  vo2.toString() + passageiro1.toString();
-
         Assertions.assertEquals(msgEsperada, userService.gerarConfirmacao(passageiro1, vo2));
+    }
+
+    @Test
+    void deveLancarExceptionQuandoVooNaoExiste() {
+        IllegalArgumentException excecaoLancada = Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.gerarConfirmacao(passageiro1, vo2)
+        );
+
+        String mensagemEsperada = "Esse voo não existe";
+        Assertions.assertEquals(mensagemEsperada, excecaoLancada.getMessage());
+    }
+
+    @Test
+    void deveLancarExceptionQuandoPassageiroNaoEstaNoVoo() {
+        BaseDeDados.getVoos().add(vo2);
+        IllegalArgumentException excecaoLancada = Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.gerarConfirmacao(passageiro1, vo2)
+        );
+
+        String mensagemEsperada = "Passageiro não cadastrado no voo";
+        Assertions.assertEquals(mensagemEsperada, excecaoLancada.getMessage());
     }
 }
