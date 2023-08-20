@@ -17,6 +17,11 @@ public class TarefasRepository {
     return tarefas.add(tarefa);
   }
 
+  public void excluirTarefa(String id) {
+    Tarefa tarefa = findById(id);
+    tarefas.remove(tarefa);
+  }
+
   public List<Tarefa> listaDeTarefas() {
     return tarefas;
   }

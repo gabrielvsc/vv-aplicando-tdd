@@ -63,6 +63,15 @@ public class GerenciadorDeTarefasService {
     return false;
   }
 
+  public boolean excluirTarefa(String id) {
+    Tarefa tarefa = getTarefa(id);
+    if (tarefa != null) {
+      tarefasRepository.excluirTarefa(id);
+      return true;
+    }
+    return false;
+  }
+
   public List<Tarefa> listaDeTarefas() {
     return tarefasRepository.listaDeTarefas();
   }
@@ -72,7 +81,7 @@ public class GerenciadorDeTarefasService {
     return !date.before(dataAtual);
   }
 
-  private Tarefa getTarefa(String id) throws NoSuchElementException {
+  public Tarefa getTarefa(String id) throws NoSuchElementException {
     Tarefa tarefa = tarefasRepository.findById(id);
     if (tarefa == null) {
       throw new NoSuchElementException("Tarefa não encontrada");
