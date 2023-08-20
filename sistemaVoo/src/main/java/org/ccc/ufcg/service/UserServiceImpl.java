@@ -1,5 +1,6 @@
 package org.ccc.ufcg.service;
 
+import org.ccc.ufcg.model.Passageiro;
 import org.ccc.ufcg.model.Voo;
 import org.ccc.ufcg.repository.BaseDeDados;
 
@@ -13,5 +14,10 @@ public class UserServiceImpl implements UserService{
 
        voos.forEach(voo -> sb.append(voo.toString()));
        return sb.toString();
+    }
+
+    @Override
+    public Boolean reservarVoo(List<Passageiro> passageiros, Voo voo) {
+        return null;
     }
 }

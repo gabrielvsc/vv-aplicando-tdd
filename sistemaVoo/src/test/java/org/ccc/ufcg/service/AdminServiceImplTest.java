@@ -23,16 +23,16 @@ class AdminServiceImplTest {
     @Test
     void deveCadastrarUmVooComSucesso() {
         Boolean cadastrado = adminService.cadastrarVoo(voo);
-        Assertions.assertEquals(true, cadastrado);
+        Assertions.assertTrue(cadastrado);
     }
 
     @Test
     void deveFalharAoSalvarVooComMesmoCodigoEHora() {
         Boolean cadastrado = adminService.cadastrarVoo(voo);
-        Assertions.assertEquals(true, cadastrado);
+        Assertions.assertTrue(cadastrado);
 
         cadastrado = adminService.cadastrarVoo(voo);
-        Assertions.assertEquals(false, cadastrado);
+        Assertions.assertFalse(cadastrado);
     }
 
 }

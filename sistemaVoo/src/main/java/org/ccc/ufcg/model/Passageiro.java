@@ -5,13 +5,11 @@ public class Passageiro {
     private String nome;
     private String telefone;
     private String email;
-    private Passagem passagem;
 
-    public Passageiro(String nome, String telefone, String email, Passagem passagem) {
+    public Passageiro(String nome, String telefone, String email) {
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
-        this.passagem = passagem;
     }
 
     public String getNome() {
@@ -38,11 +36,4 @@ public class Passageiro {
         this.email = email;
     }
 
-    public Passagem getPassagem() {
-        return passagem;
-    }
-
-    public void setPassagem(Passagem passagem) {
-        this.passagem = passagem;
-    }
 }
