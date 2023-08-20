@@ -20,4 +20,13 @@ public class TarefasRepository {
   public List<Tarefa> listaDeTarefas() {
     return tarefas;
   }
+
+  public Tarefa findById(String id) {
+    for (Tarefa tarefa : tarefas) {
+      if (tarefa.getId().equals(id)) {
+        return tarefa;
+      }
+    }
+    return null;
+  }
 }

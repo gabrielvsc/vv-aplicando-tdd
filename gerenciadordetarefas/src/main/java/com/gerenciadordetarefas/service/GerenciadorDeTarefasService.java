@@ -26,8 +26,9 @@ public class GerenciadorDeTarefasService {
     return novaTarefa;
   }
 
-  public void atualizarTituloTarefa(Tarefa tarefa, String novoTitulo) {
-    if (tarefa != null) {
+  public void atualizarTituloTarefa(String id, String novoTitulo) {
+    Tarefa tarefa = getTarefa(id);
+    if (tarefa != null && novoTitulo != null && !novoTitulo.isEmpty()) {
       tarefa.setTitulo(novoTitulo);
     }
   }
@@ -39,5 +40,9 @@ public class GerenciadorDeTarefasService {
   private boolean isValidDate(Date date) {
     Date dataAtual = new Date();
     return !date.before(dataAtual);
+  }
+
+  private Tarefa getTarefa(String id) {
+    return tarefasRepository.findById(id);
   }
 }
