@@ -52,7 +52,16 @@ public class GerenciadorDeTarefasService {
     }
     return false;
   }
-  
+
+  public boolean atualizarDescricaoTarefa(String id, String novaDescricao) {
+    Tarefa tarefa = getTarefa(id);
+    if (tarefa != null && novaDescricao != null) {
+      tarefa.setDescricao(novaDescricao);
+      return true;
+    }
+    return false;
+  }
+
   public List<Tarefa> listaDeTarefas() {
     return tarefasRepository.listaDeTarefas();
   }
@@ -65,4 +74,6 @@ public class GerenciadorDeTarefasService {
   private Tarefa getTarefa(String id) {
     return tarefasRepository.findById(id);
   }
+
+  
 }
