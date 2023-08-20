@@ -1,8 +1,10 @@
-package com.gerenciadordetarefas;
+package com.gerenciadordetarefas.model;
 
 import java.util.Date;
 
-class Tarefa {
+import com.gerenciadordetarefas.enums.Prioridade;
+
+public class Tarefa {
     private String titulo;
     private String descricao;
     private Date dataDeVencimento;

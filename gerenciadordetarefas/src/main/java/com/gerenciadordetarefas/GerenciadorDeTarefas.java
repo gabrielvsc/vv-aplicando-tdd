@@ -1,33 +1,19 @@
 package com.gerenciadordetarefas;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class GerenciadorDeTarefas {
+import com.gerenciadordetarefas.model.Tarefa;
+import com.gerenciadordetarefas.repositories.TarefasRepository;
+import com.gerenciadordetarefas.service.GerenciadorDeTarefasService;
 
-    private List<Tarefa> listaDeTarefas;
+public class GerenciadorDeTarefas {
+    
+    GerenciadorDeTarefasService gerenciadorDeTarefasService;
 
     public GerenciadorDeTarefas() {
-        listaDeTarefas = new ArrayList<>();
-    }
-
-    public Tarefa criarTarefa(String titulo, String descricao, Date dataDeVencimento, Prioridade prioridade) {
-        if (titulo.isEmpty() || descricao.isEmpty() || dataDeVencimento == null || prioridade == null || !isValidDate(dataDeVencimento)) {
-            return null;
-        }
-
-        Tarefa novaTarefa = new Tarefa(titulo, descricao, dataDeVencimento, prioridade);
-        listaDeTarefas.add(novaTarefa);
-        return novaTarefa;
-    }
-
-    public List<Tarefa> listaDeTarefas() {
-        return listaDeTarefas;
-    }
-
-    private boolean isValidDate(Date date) {
-        Date dataAtual = new Date();
-        return !date.before(dataAtual);
+        List<Tarefa> tarefas = new ArrayList<Tarefa>();
+        TarefasRepository tarefaRepository = new TarefasRepository(tarefas);
+        this.gerenciadorDeTarefasService = new GerenciadorDeTarefasService(tarefaRepository);
     }
 }
