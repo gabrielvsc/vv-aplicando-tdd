@@ -1,6 +1,7 @@
 package com.gerenciadordetarefas;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -86,12 +87,13 @@ public class GerenciadorDeTarefasTest {
 
         // Criar uma tarefa inicial com um título
         Tarefa tarefaInicial = gerenciador.gerenciadorDeTarefasService.criarTarefa("Título Inicial", "Descrição", dataVencimento, Prioridade.ALTA);
+        String tarefaId = tarefaInicial.getId();
         assertNotNull("A tarefa inicial não deveria ser nula", tarefaInicial);
         assertEquals("Título inicial incorreto", "Título Inicial", tarefaInicial.getTitulo());
 
         // Atualizar o título da tarefa utilizando o serviço
         String novoTitulo = "Novo Título";
-        gerenciador.gerenciadorDeTarefasService.atualizarTituloTarefa(tarefaInicial, novoTitulo);
+        gerenciador.gerenciadorDeTarefasService.atualizarTituloTarefa(tarefaId, novoTitulo);
         assertEquals("Título não foi atualizado corretamente", novoTitulo, tarefaInicial.getTitulo());
     }
 }
