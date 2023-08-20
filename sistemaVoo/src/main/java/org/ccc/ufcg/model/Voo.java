@@ -115,6 +115,9 @@ public class Voo {
         this.passagems = passagems;
     }
 
+    public int getAcentosVazios() {
+        return this.numeroPassageiros - this.numeroAcentosReservados;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -126,5 +129,9 @@ public class Voo {
     @Override
     public int hashCode() {
         return Objects.hash(codigo, data, hora);
+    }
+    @Override
+    public String toString() {
+        return String.format("Origem: %s, Destino: %s, Horário: %s, Preço: %s, Lugares vazios: %s.\n", origem, destino, hora, valor, getAcentosVazios());
     }
 }

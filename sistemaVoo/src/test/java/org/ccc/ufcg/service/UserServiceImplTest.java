@@ -31,7 +31,7 @@ class UserServiceImplTest {
 
     @Test
     void deveListarVoosComSucesso() {
-        String listaEsperada = String.format("Origem: Compina Grande PB, Destino: São Paulo SP, Horário: %s, Preço: 100.10, Lugares vazios: 80.", hora);
+        String listaEsperada = String.format("Origem: Compina Grande PB, Destino: São Paulo SP, Horário: %s, Preço: 100.1, Lugares vazios: 80.\n", hora);
         Assertions.assertEquals(listaEsperada, userService.listarVoos());
     }
 
