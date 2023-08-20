@@ -9,4 +9,6 @@ public interface UserService {
     String listarVoos();
 
     Boolean reservarVoo(List<Passageiro> passageiros, Voo voo) throws IllegalAccessException;
+
+    Boolean cancelarVoo(Passageiro passageiro1, Voo voo);
 }

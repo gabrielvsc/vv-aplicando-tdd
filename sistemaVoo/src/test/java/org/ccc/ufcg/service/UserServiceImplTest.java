@@ -74,6 +74,12 @@ class UserServiceImplTest {
 
     @Test
     void deveCancelarReservaComSucesso() {
-        Assertions.assertTrue(userService.cancelarVoo(passageiro1, voo));
+        vo2.getPassageiros().add(passageiro1);
+        BaseDeDados.getVoos().add(vo2);
+
+        Assertions.assertTrue(vo2.getPassageiros().contains(passageiro1));
+        Assertions.assertTrue(userService.cancelarVoo(passageiro1, vo2));
+
+        Assertions.assertFalse(vo2.getPassageiros().contains(passageiro1));
     }
 }

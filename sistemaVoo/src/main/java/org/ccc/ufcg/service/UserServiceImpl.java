@@ -39,4 +39,18 @@ public class UserServiceImpl implements UserService{
 
         throw new IllegalArgumentException("Esse voo não existe");
     }
+
+    @Override
+    public Boolean cancelarVoo(Passageiro passageiro, Voo voo) {
+        for(int i = 0; i < BaseDeDados.getVoos().size(); i++ ) {
+            if(BaseDeDados.getVoos().get(i).equals(voo)) {
+                voo.getPassageiros().remove(passageiro);
+                Passagem passagem = new Passagem(passageiro, voo);
+                BaseDeDados.getPassagems().remove(passagem);
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
