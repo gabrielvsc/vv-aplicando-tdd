@@ -13,6 +13,7 @@ import org.junit.Test;
 
 public class GerenciadorDeTarefasTest {
 
+  // 1. Testes de Criar Tarefa
   @Test
   public void testCriarTarefaComInformacoesCompletas() throws ParseException {
       GerenciadorDeTarefas gerenciador = new GerenciadorDeTarefas();
@@ -70,5 +71,24 @@ public class GerenciadorDeTarefasTest {
         // Tentar criar uma tarefa com prioridade inválida
         Tarefa tarefaInvalida = gerenciador.criarTarefa("Título", "Descrição", dataVencimento, null);
         assertNull("A tarefa deveria ser nula devido à prioridade inválida", tarefaInvalida);
+    }
+    
+    // 2. Testes de Atualizar Tarefa
+
+    @Test
+    public void testAtualizarTituloTarefa() {
+        GerenciadorDeTarefasService gerenciadorService = new GerenciadorDeTarefasService();
+
+        Date dataVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+
+        // Criar uma tarefa inicial com um título
+        Tarefa tarefaInicial = gerenciadorService.criarTarefa("Título Inicial", "Descrição", dataVencimento, Prioridade.ALTA);
+        assertNotNull("A tarefa inicial não deveria ser nula", tarefaInicial);
+        assertEquals("Título inicial incorreto", "Título Inicial", tarefaInicial.getTitulo());
+
+        // Atualizar o título da tarefa utilizando o serviço
+        String novoTitulo = "Novo Título";
+        gerenciadorService.atualizarTituloTarefa(tarefaInicial, novoTitulo);
+        assertEquals("Título não foi atualizado corretamente", novoTitulo, tarefaInicial.getTitulo());
     }
 }
