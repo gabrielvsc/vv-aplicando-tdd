@@ -18,6 +18,7 @@ class UserServiceImplTest {
     private static UserService userService;
     private static AdminService adminService;
     private static Voo voo;
+    private static Voo vo2;
     private static LocalDateTime hora;
     Passageiro passageiro1;
     Passageiro passageiro2;
@@ -29,6 +30,9 @@ class UserServiceImplTest {
         hora = LocalDateTime.now();
         voo = new Voo("SPPB001", LocalDate.now(), hora, BigDecimal.valueOf(100.10), "Compina Grande PB","São Paulo SP", 80);
         adminService.cadastrarVoo(voo);
+
+        vo2 = new Voo("RNGO001", LocalDate.now(), hora, BigDecimal.valueOf(100.10), "Natal RN", "Goiania GO", 1);
+        adminService.cadastrarVoo(vo2);
     }
 
     @BeforeEach
@@ -45,8 +49,21 @@ class UserServiceImplTest {
     }
 
     @Test
-    void deveReservarUmaVooComSucesso() {
+    void deveReservarUmaVooComSucesso() throws IllegalAccessException {
         List<Passageiro> passageiros = Arrays.asList(passageiro1, passageiro2);
         Assertions.assertTrue(userService.reservarVoo(passageiros, voo));
+    }
+
+    @Test
+    void devefalharAoTentarReservarVooComLimiteDeVagasExcedidas() throws IllegalAccessException {
+        List<Passageiro> passageiros = Arrays.asList(passageiro1, passageiro2);
+
+        IllegalArgumentException excecaoLancada = Assertions.assertThrows(
+                IllegalArgumentException.class,
+                () -> userService.reservarVoo(passageiros, vo2)
+        );
+
+        String mensagemEsperada = "Limite de vagas excedido";
+        Assertions.assertEquals(mensagemEsperada, excecaoLancada.getMessage());
     }
 }

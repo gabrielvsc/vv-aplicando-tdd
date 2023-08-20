@@ -8,5 +8,5 @@ import java.util.List;
 public interface UserService {
     String listarVoos();
 
-    Boolean reservarVoo(List<Passageiro> passageiros, Voo voo);
+    Boolean reservarVoo(List<Passageiro> passageiros, Voo voo) throws IllegalAccessException;
 }
