@@ -2,6 +2,7 @@ package com.gerenciadordetarefas.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import com.gerenciadordetarefas.enums.Prioridade;
 import com.gerenciadordetarefas.model.Tarefa;
@@ -71,9 +72,11 @@ public class GerenciadorDeTarefasService {
     return !date.before(dataAtual);
   }
 
-  private Tarefa getTarefa(String id) {
-    return tarefasRepository.findById(id);
+  private Tarefa getTarefa(String id) throws NoSuchElementException {
+    Tarefa tarefa = tarefasRepository.findById(id);
+    if (tarefa == null) {
+      throw new NoSuchElementException("Tarefa não encontrada");
+    }
+    return tarefa;
   }
-
-  
 }
