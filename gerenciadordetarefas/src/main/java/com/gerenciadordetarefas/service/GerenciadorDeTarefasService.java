@@ -44,6 +44,15 @@ public class GerenciadorDeTarefasService {
     return false;
   }
 
+  public boolean atualizarPrioridadeTarefa(String id, Prioridade prioridade) {
+    Tarefa tarefa = getTarefa(id);
+    if (tarefa != null && prioridade != null) {
+      tarefa.setPrioridade(prioridade);
+      return true;
+    }
+    return false;
+  }
+  
   public List<Tarefa> listaDeTarefas() {
     return tarefasRepository.listaDeTarefas();
   }
