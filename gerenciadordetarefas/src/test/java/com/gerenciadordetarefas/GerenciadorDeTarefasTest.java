@@ -140,4 +140,24 @@ public class GerenciadorDeTarefasTest {
         assertEquals("O título foi alterado erroneamente", "Título Inicial", tarefaInicial.getTitulo());
     }
 
+
+    @Test
+    public void testAtualizarDescricaoTarefa() {
+        GerenciadorDeTarefas gerenciador = new GerenciadorDeTarefas();
+
+        Date dataVencimentoInicial = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+
+        // Criar uma tarefa inicial
+        Tarefa tarefaInicial = gerenciador.gerenciadorDeTarefasService.criarTarefa("Título Inicial", "Descrição Inicial", dataVencimentoInicial, Prioridade.ALTA);
+        String tarefaId = tarefaInicial.getId();
+        assertNotNull("A tarefa inicial não deveria ser nula", tarefaInicial);
+        
+        // Atualizar a descrição da tarefa utilizando o serviço
+        String novaDescricao = "Nova Descrição";
+        gerenciador.gerenciadorDeTarefasService.atualizarDescricaoTarefa(tarefaId, novaDescricao);
+
+        // Verificar se a descrição da tarefa foi atualizada corretamente
+        assertEquals("Descrição não foi atualizada corretamente", novaDescricao, tarefaInicial.getDescricao());
+    }
+
 }
