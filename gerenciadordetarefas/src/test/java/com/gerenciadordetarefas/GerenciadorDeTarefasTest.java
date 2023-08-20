@@ -96,4 +96,28 @@ public class GerenciadorDeTarefasTest {
         gerenciador.gerenciadorDeTarefasService.atualizarTituloTarefa(tarefaId, novoTitulo);
         assertEquals("Título não foi atualizado corretamente", novoTitulo, tarefaInicial.getTitulo());
     }
+
+    @Test
+    public void testAtualizarDataDeVencimentoTarefa() {
+        GerenciadorDeTarefas gerenciador = new GerenciadorDeTarefas();
+
+        Date dataVencimentoInicial = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+
+        // Criar uma tarefa inicial com uma data de vencimento
+        Tarefa tarefaInicial = gerenciador.gerenciadorDeTarefasService.criarTarefa("Título Inicial", "Descrição", dataVencimentoInicial, Prioridade.ALTA);
+        String tarefaId = tarefaInicial.getId();
+        assertNotNull("A tarefa inicial não deveria ser nula", tarefaInicial);
+        assertEquals("Data de vencimento inicial incorreta", dataVencimentoInicial, tarefaInicial.getDataDeVencimento());
+
+        // Definir nova data de vencimento
+        Date novaDataDeVencimento = new Date(System.currentTimeMillis() + 172800000); // Data de depois de amanhã
+        gerenciador.gerenciadorDeTarefasService.atualizarDataDeVencimentoTarefa(tarefaId, novaDataDeVencimento);
+
+        // Verificar se a data de vencimento foi atualizada corretamente
+        assertEquals("Data de vencimento não foi atualizada corretamente", novaDataDeVencimento, tarefaInicial.getDataDeVencimento());
+
+        // Verificar se os outros detalhes da tarefa permaneceram inalterados
+        assertEquals("O título foi alterado erroneamente", "Título Inicial", tarefaInicial.getTitulo());
+    }
+
 }
