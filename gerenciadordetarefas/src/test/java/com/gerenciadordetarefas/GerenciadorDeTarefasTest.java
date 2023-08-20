@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.junit.Test;
@@ -180,4 +181,49 @@ public class GerenciadorDeTarefasTest {
         }
     }
 
+    // 3. Testes de excluir Tarefa
+
+    @Test
+    public void testExcluirTarefaExistente() {
+        GerenciadorDeTarefas gerenciador = new GerenciadorDeTarefas();
+
+        Date dataVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+
+        // Criar uma tarefa
+        Tarefa tarefa = gerenciador.gerenciadorDeTarefasService.criarTarefa("Título", "Descrição", dataVencimento, Prioridade.ALTA);
+        String tarefaId = tarefa.getId();
+        assertNotNull("A tarefa não deveria ser nula", tarefa);
+
+        // Excluir a tarefa
+        gerenciador.gerenciadorDeTarefasService.excluirTarefa(tarefaId);
+
+        // Verificar se a tarefa foi excluída
+        try {
+            gerenciador.gerenciadorDeTarefasService.getTarefa(tarefaId);
+            fail("A tarefa não deveria mais existir");
+        } catch (NoSuchElementException e) {
+        }
+
+        // Verificar se a lista de tarefas está vazia
+        List<Tarefa> listaDeTarefas = gerenciador.gerenciadorDeTarefasService.listaDeTarefas();
+        assertTrue("A lista de tarefas deveria estar vazia", listaDeTarefas.isEmpty());
+    }
+
+    @Test
+    public void testExcluirTarefaInexistente() {
+        GerenciadorDeTarefas gerenciador = new GerenciadorDeTarefas();
+
+        String tarefaIdInexistente = "tarefa_inexistente_id";
+
+        try {
+            gerenciador.gerenciadorDeTarefasService.excluirTarefa(tarefaIdInexistente);
+            fail("Deveria ter lançado uma NoSuchElementException ao tentar excluir tarefa inexistente");
+        } catch (NoSuchElementException e) {
+            assertEquals("Tarefa não encontrada", e.getMessage());
+        }
+
+        // Verificar se a lista de tarefas permanece inalterada
+        List<Tarefa> listaDeTarefas = gerenciador.gerenciadorDeTarefasService.listaDeTarefas();
+        assertTrue("A lista de tarefas deveria estar vazia", listaDeTarefas.isEmpty());
+    }
 }
