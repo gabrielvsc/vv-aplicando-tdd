@@ -226,4 +226,37 @@ public class GerenciadorDeTarefasTest {
         List<Tarefa> listaDeTarefas = gerenciador.gerenciadorDeTarefasService.listaDeTarefas();
         assertTrue("A lista de tarefas deveria estar vazia", listaDeTarefas.isEmpty());
     }
+
+    // 4. Testes de listar Tarefas
+    @Test
+    public void testListarTarefasVazias() {
+        GerenciadorDeTarefas gerenciador = new GerenciadorDeTarefas();
+
+        // Listar as tarefas quando não há nenhuma tarefa criada
+        List<Tarefa> listaDeTarefas = gerenciador.gerenciadorDeTarefasService.listaDeTarefas();
+
+        // Verificar se a lista está vazia
+        assertTrue("A lista de tarefas deveria estar vazia", listaDeTarefas.isEmpty());
+    }
+
+    @Test
+    public void testListarTarefasOrdenadas() {
+        GerenciadorDeTarefas gerenciador = new GerenciadorDeTarefas();
+
+        Date dataVencimentoAmanha = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+        Date dataVencimentoDepoisAmanha = new Date(System.currentTimeMillis() + 172800000); // Data de depois de amanhã
+
+        // Criar tarefas com diferentes datas de vencimento e prioridades
+        gerenciador.gerenciadorDeTarefasService.criarTarefa("Tarefa 1", "Descrição", dataVencimentoDepoisAmanha, Prioridade.BAIXA);
+        gerenciador.gerenciadorDeTarefasService.criarTarefa("Tarefa 2", "Descrição", dataVencimentoAmanha, Prioridade.ALTA);
+        gerenciador.gerenciadorDeTarefasService.criarTarefa("Tarefa 3", "Descrição", dataVencimentoDepoisAmanha, Prioridade.MEDIA);
+
+        // Listar as tarefas
+        List<Tarefa> listaDeTarefas = gerenciador.gerenciadorDeTarefasService.listaDeTarefas();
+
+        // Verificar se a lista está ordenada corretamente
+        assertEquals("Tarefa 2", listaDeTarefas.get(0).getTitulo()); // Tarefa com prioridade alta e data de amanhã
+        assertEquals("Tarefa 3", listaDeTarefas.get(1).getTitulo()); // Tarefa com prioridade média e data de depois de amanhã
+        assertEquals("Tarefa 1", listaDeTarefas.get(2).getTitulo()); // Tarefa com prioridade baixa e data de depois de amanhã
+    }
 }
