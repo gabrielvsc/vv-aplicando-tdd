@@ -17,13 +17,22 @@ class AdminServiceImplTest {
     @BeforeEach
     void setup() {
         adminService = new AdminServiceImlp();
-        voo = new Voo(LocalDate.now(), LocalDateTime.now(), BigDecimal.valueOf(100.10), "Compina Grande PB","São Paulo SP", 80);
+        voo = new Voo("SPPB001",LocalDate.now(), LocalDateTime.now(), BigDecimal.valueOf(100.10), "Compina Grande PB","São Paulo SP", 80);
     }
 
     @Test
     void deveCadastrarUmVooComSucesso() {
         Boolean cadastrado = adminService.cadastrarVoo(voo);
         Assertions.assertEquals(true, cadastrado);
+    }
+
+    @Test
+    void deveFalharAoSalvarVooComMesmoCodigoEHora() {
+        Boolean cadastrado = adminService.cadastrarVoo(voo);
+        Assertions.assertEquals(true, cadastrado);
+
+        cadastrado = adminService.cadastrarVoo(voo);
+        Assertions.assertEquals(false, cadastrado);
     }
 
 }
