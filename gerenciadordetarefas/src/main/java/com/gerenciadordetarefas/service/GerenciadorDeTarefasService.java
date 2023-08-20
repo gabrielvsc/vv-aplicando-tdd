@@ -26,11 +26,22 @@ public class GerenciadorDeTarefasService {
     return novaTarefa;
   }
 
-  public void atualizarTituloTarefa(String id, String novoTitulo) {
+  public boolean atualizarTituloTarefa(String id, String novoTitulo) {
     Tarefa tarefa = getTarefa(id);
     if (tarefa != null && novoTitulo != null && !novoTitulo.isEmpty()) {
       tarefa.setTitulo(novoTitulo);
+      return true;
     }
+    return false;
+  }
+
+  public boolean atualizarDataDeVencimentoTarefa(String id, Date novaDataDeVencimento) {
+    Tarefa tarefa = getTarefa(id);
+    if (tarefa != null && novaDataDeVencimento != null) {
+      tarefa.setDataDeVencimento(novaDataDeVencimento);
+      return true;
+    }
+    return false;
   }
 
   public List<Tarefa> listaDeTarefas() {
