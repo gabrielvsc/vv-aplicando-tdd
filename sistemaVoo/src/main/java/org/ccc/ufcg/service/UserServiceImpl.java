@@ -53,4 +53,9 @@ public class UserServiceImpl implements UserService{
 
         return false;
     }
+
+    @Override
+    public String gerarConfirmacao(Passageiro passageiro1, Voo vo2) {
+        return null;
+    }
 }

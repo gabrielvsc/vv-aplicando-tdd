@@ -82,4 +82,14 @@ class UserServiceImplTest {
 
         Assertions.assertFalse(vo2.getPassageiros().contains(passageiro1));
     }
+
+    @Test
+    void deveGerarConfirmacaoDeReserva() {
+        vo2.getPassageiros().add(passageiro1);
+        BaseDeDados.getVoos().add(vo2);
+
+        String msgEsperada =  vo2.toString() + passageiro1.toString();
+
+        Assertions.assertEquals(msgEsperada, userService.gerarConfirmacao(passageiro1, vo2));
+    }
 }
