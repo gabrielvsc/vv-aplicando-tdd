@@ -4,10 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.NoSuchElementException;
 
 import org.junit.Test;
 
@@ -158,6 +160,24 @@ public class GerenciadorDeTarefasTest {
 
         // Verificar se a descrição da tarefa foi atualizada corretamente
         assertEquals("Descrição não foi atualizada corretamente", novaDescricao, tarefaInicial.getDescricao());
+    }
+
+
+    @Test
+    public void testAtualizarTarefaInexistente() {
+        GerenciadorDeTarefas gerenciador = new GerenciadorDeTarefas();
+
+        // Tente atualizar os detalhes de uma tarefa inexistente
+        String tarefaIdInexistente = "tarefa_inexistente_id";
+        String novoTitulo = "Novo Título";
+
+        try {
+            gerenciador.gerenciadorDeTarefasService.atualizarTituloTarefa(tarefaIdInexistente, novoTitulo);
+            fail("Deveria ter lançado uma exceção ao tentar atualizar tarefa inexistente");
+        } catch (NoSuchElementException e) {
+            // Verificar se a exceção foi lançada corretamente
+            assertEquals("Tarefa não encontrada", e.getMessage());
+        }
     }
 
 }
