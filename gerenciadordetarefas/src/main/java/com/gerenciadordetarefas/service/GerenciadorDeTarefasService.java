@@ -1,5 +1,7 @@
 package com.gerenciadordetarefas.service;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -73,7 +75,19 @@ public class GerenciadorDeTarefasService {
   }
 
   public List<Tarefa> listaDeTarefas() {
-    return tarefasRepository.listaDeTarefas();
+    List<Tarefa> tarefas = tarefasRepository.listaDeTarefas();
+
+    // Ordenar a lista de tarefas por data de vencimento e depois por prioridade
+    Collections.sort(tarefas, new Comparator<Tarefa>() {
+      public int compare(Tarefa tarefa1, Tarefa tarefa2) {
+        int comparison = tarefa1.getDataDeVencimento().compareTo(tarefa2.getDataDeVencimento());
+        if (comparison == 0) {
+          return tarefa1.getPrioridade().compareTo(tarefa2.getPrioridade());
+        }
+        return comparison;
+      }
+    });
+    return tarefas;
   }
 
   private boolean isValidDate(Date date) {
