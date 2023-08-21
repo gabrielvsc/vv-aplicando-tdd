@@ -1,10 +1,13 @@
 package com.gerenciadordetarefas.model;
 
+import com.gerenciadordetarefas.enums.Prioridade;
+
 import java.util.Date;
 import java.util.UUID;
 
-import com.gerenciadordetarefas.enums.Prioridade;
-
+/**
+ * Representa uma tarefa a ser gerenciada.
+ */
 public class Tarefa {
 
   private String id;
@@ -13,8 +16,16 @@ public class Tarefa {
   private Date dataDeVencimento;
   private Prioridade prioridade;
 
+  /**
+   * Construtor para criar uma nova tarefa.
+   *
+   * @param titulo           O título da tarefa.
+   * @param descricao        A descrição da tarefa.
+   * @param dataDeVencimento A data de vencimento da tarefa.
+   * @param prioridade       A prioridade da tarefa.
+   */
   public Tarefa(String titulo, String descricao, Date dataDeVencimento, Prioridade prioridade) {
-    this.id = UUID.randomUUID().toString();  
+    this.id = UUID.randomUUID().toString();
     this.titulo = titulo;
     this.descricao = descricao;
     this.dataDeVencimento = dataDeVencimento;
@@ -36,7 +47,7 @@ public class Tarefa {
   public void setTitulo(String titulo) {
     this.titulo = titulo;
   }
-    
+
   public String getDescricao() {
     return descricao;
   }
