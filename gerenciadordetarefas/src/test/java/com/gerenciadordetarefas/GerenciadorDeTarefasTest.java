@@ -32,29 +32,30 @@ public class GerenciadorDeTarefasTest {
     this.gerenciador = new GerenciadorDeTarefasServiceImpl(tarefasRepository);
   }
 
+  private Tarefa criarTarefaCompleta(Date dataDeVencimento) {
+    return gerenciador.criarTarefa("Tarefa Importante", "Realizar a apresentação para a equipe.", dataDeVencimento, Prioridade.ALTA);
+  }
+
+  private void assertTarefaDetalhesIguais(String mensagem, Tarefa tarefa, String titulo, String descricao, Date dataVencimento, Prioridade prioridade) {
+    assertEquals(mensagem, titulo, tarefa.getTitulo());
+    assertEquals(mensagem, descricao, tarefa.getDescricao());
+    assertEquals(mensagem, dataVencimento, tarefa.getDataDeVencimento());
+    assertEquals(mensagem, prioridade, tarefa.getPrioridade());
+  }
+
   // 1. Testes de Criar Tarefa
   @Test
   public void testCriarTarefaComInformacoesCompletas() throws ParseException {
     // Definir as informações completas para a tarefa
-    String titulo = "Tarefa Importante";
-    String descricao = "Realizar a apresentação para a equipe.";
-    Date dataVencimento = new SimpleDateFormat("yyyy-MM-dd").parse("2023-08-25");
-    Prioridade prioridade = Prioridade.ALTA;
-
-    // Criar a tarefa usando o método do gerenciador de tarefas
-    Tarefa tarefa = gerenciador.criarTarefa(titulo, descricao, dataVencimento, prioridade);
-
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = criarTarefaCompleta(dataDeVencimento);
+    
     // Verificar se a tarefa foi criada com sucesso
     assertNotNull("A tarefa não deveria ser 'null'", tarefa);
-
     // Verificar se a tarefa está presente na lista de tarefas do gerenciador
     assertTrue("A tarefa não está presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
-
     // Verificar se os detalhes da tarefa estão corretos
-    assertEquals("Título incorreto", titulo, tarefa.getTitulo());
-    assertEquals("Descrição incorreta", descricao, tarefa.getDescricao());
-    assertEquals("Data de vencimento incorreta", dataVencimento, tarefa.getDataDeVencimento());
-    assertEquals("Prioridade incorreta", prioridade, tarefa.getPrioridade());
+    assertTarefaDetalhesIguais("Título incorreto", tarefa, "Tarefa Importante", "Realizar a apresentação para a equipe.", dataDeVencimento , Prioridade.ALTA);
   }
 
   @Test
@@ -88,13 +89,14 @@ public class GerenciadorDeTarefasTest {
 
   @Test
   public void testAtualizarTituloTarefa() {
-    Date dataVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
-
-    // Criar uma tarefa inicial com um título
-    Tarefa tarefaInicial = gerenciador.criarTarefa("Título Inicial", "Descrição", dataVencimento, Prioridade.ALTA);
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    
+    // Título: "Tarefa Importante"
+    Tarefa tarefaInicial = criarTarefaCompleta(dataDeVencimento);
     String tarefaId = tarefaInicial.getId();
+    
     assertNotNull("A tarefa inicial não deveria ser nula", tarefaInicial);
-    assertEquals("Título inicial incorreto", "Título Inicial", tarefaInicial.getTitulo());
+    assertEquals("Título inicial incorreto", "Tarefa Importante", tarefaInicial.getTitulo());
 
     // Atualizar o título da tarefa utilizando o serviço
     String novoTitulo = "Novo Título";
@@ -104,13 +106,14 @@ public class GerenciadorDeTarefasTest {
 
   @Test
   public void testAtualizarDataDeVencimentoTarefa() {
-    Date dataVencimentoInicial = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Date dataDeVencimentoInicial = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
 
     // Criar uma tarefa inicial com uma data de vencimento
-    Tarefa tarefaInicial = gerenciador.criarTarefa("Título Inicial", "Descrição", dataVencimentoInicial, Prioridade.ALTA);
+    Tarefa tarefaInicial = criarTarefaCompleta(dataDeVencimentoInicial);
     String tarefaId = tarefaInicial.getId();
+
     assertNotNull("A tarefa inicial não deveria ser nula", tarefaInicial);
-    assertEquals("Data de vencimento inicial incorreta", dataVencimentoInicial, tarefaInicial.getDataDeVencimento());
+    assertEquals("Data de vencimento inicial incorreta", dataDeVencimentoInicial, tarefaInicial.getDataDeVencimento());
 
     // Definir nova data de vencimento
     Date novaDataDeVencimento = new Date(System.currentTimeMillis() + 172800000); // Data de depois de amanhã
@@ -120,15 +123,21 @@ public class GerenciadorDeTarefasTest {
     assertEquals("Data de vencimento não foi atualizada corretamente", novaDataDeVencimento, tarefaInicial.getDataDeVencimento());
 
     // Verificar se os outros detalhes da tarefa permaneceram inalterados
-    assertEquals("O título foi alterado erroneamente", "Título Inicial", tarefaInicial.getTitulo());
+    assertTarefaDetalhesIguais(
+      "Tarefa Diferente", tarefaInicial,
+      "Tarefa Importante",
+      "Realizar a apresentação para a equipe.",
+      novaDataDeVencimento ,
+      Prioridade.ALTA
+    );
   }
 
   @Test
   public void testAtualizarPrioridadeTarefa() {
-    Date dataVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
 
     // Criar uma tarefa inicial com uma prioridade
-    Tarefa tarefaInicial = gerenciador.criarTarefa("Título Inicial", "Descrição", dataVencimento, Prioridade.ALTA);
+    Tarefa tarefaInicial = criarTarefaCompleta(dataDeVencimento);
     String tarefaId = tarefaInicial.getId();
     assertNotNull("A tarefa inicial não deveria ser nula", tarefaInicial);
     assertEquals("Prioridade inicial incorreta", Prioridade.ALTA, tarefaInicial.getPrioridade());
@@ -139,25 +148,39 @@ public class GerenciadorDeTarefasTest {
     assertEquals("Prioridade não foi atualizada corretamente", novaPrioridade, tarefaInicial.getPrioridade());
 
     // Verificar se os outros detalhes da tarefa permaneceram inalterados
-    assertEquals("O título foi alterado erroneamente", "Título Inicial", tarefaInicial.getTitulo());
+    assertTarefaDetalhesIguais(
+      "Tarefa Diferente", tarefaInicial,
+      "Tarefa Importante",
+      "Realizar a apresentação para a equipe.",
+      dataDeVencimento,
+      Prioridade.BAIXA
+    );
   }
-
 
   @Test
   public void testAtualizarDescricaoTarefa() {
-    Date dataVencimentoInicial = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
 
     // Criar uma tarefa inicial
-    Tarefa tarefaInicial = gerenciador.criarTarefa("Título Inicial", "Descrição Inicial", dataVencimentoInicial, Prioridade.ALTA);
-    String tarefaId = tarefaInicial.getId();
+    Tarefa tarefaInicial = criarTarefaCompleta(dataDeVencimento);
     assertNotNull("A tarefa inicial não deveria ser nula", tarefaInicial);
     
     // Atualizar a descrição da tarefa utilizando o serviço
+    String tarefaId = tarefaInicial.getId();
     String novaDescricao = "Nova Descrição";
     gerenciador.atualizarDescricaoTarefa(tarefaId, novaDescricao);
 
     // Verificar se a descrição da tarefa foi atualizada corretamente
     assertEquals("Descrição não foi atualizada corretamente", novaDescricao, tarefaInicial.getDescricao());
+
+    // Verificar se os outros detalhes da tarefa permaneceram inalterados
+    assertTarefaDetalhesIguais(
+      "Tarefa Diferente", tarefaInicial,
+      "Tarefa Importante",
+      "Nova Descrição",
+      dataDeVencimento,
+      Prioridade.ALTA
+    );
   }
 
 
@@ -180,14 +203,14 @@ public class GerenciadorDeTarefasTest {
 
   @Test
   public void testExcluirTarefaExistente() {
-    Date dataVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
 
     // Criar uma tarefa
-    Tarefa tarefa = gerenciador.criarTarefa("Título", "Descrição", dataVencimento, Prioridade.ALTA);
-    String tarefaId = tarefa.getId();
+    Tarefa tarefa = criarTarefaCompleta(dataDeVencimento);
     assertNotNull("A tarefa não deveria ser nula", tarefa);
 
     // Excluir a tarefa
+    String tarefaId = tarefa.getId();
     gerenciador.excluirTarefa(tarefaId);
 
     // Verificar se a tarefa foi excluída
