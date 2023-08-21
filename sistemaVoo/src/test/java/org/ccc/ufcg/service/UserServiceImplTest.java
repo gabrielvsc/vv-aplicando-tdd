@@ -42,8 +42,8 @@ class UserServiceImplTest {
 
     @AfterEach
     void after() {
-        BaseDeDados.getVoos().removeAll(Arrays.asList(voo, vo2));
-        BaseDeDados.getPassageiros().removeAll(Arrays.asList(passageiro1, passageiro2));
+        BaseDeDados.getVoos().clear();
+        BaseDeDados.getPassageiros().clear();
     }
 
     @Test
