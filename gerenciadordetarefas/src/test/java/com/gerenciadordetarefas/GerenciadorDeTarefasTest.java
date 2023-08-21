@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.gerenciadordetarefas.enums.Prioridade;
@@ -22,9 +23,14 @@ import com.gerenciadordetarefas.service.GerenciadorDeTarefasServiceImpl;
 
 public class GerenciadorDeTarefasTest {
 
-  List<Tarefa> tarefas = new ArrayList<Tarefa>();
-  TarefasRepository tarefasRepository = new TarefasRepository(tarefas);
-  GerenciadorDeTarefasServiceImpl gerenciador = new GerenciadorDeTarefasServiceImpl(tarefasRepository);
+  private GerenciadorDeTarefasServiceImpl gerenciador;
+
+  @Before
+  public void setup() {
+    List<Tarefa> tarefas = new ArrayList<>();
+    TarefasRepository tarefasRepository = new TarefasRepository(tarefas);
+    this.gerenciador = new GerenciadorDeTarefasServiceImpl(tarefasRepository);
+  }
 
   // 1. Testes de Criar Tarefa
   @Test
