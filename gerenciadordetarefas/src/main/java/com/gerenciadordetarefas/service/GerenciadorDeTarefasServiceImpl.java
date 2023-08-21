@@ -19,19 +19,18 @@ public class GerenciadorDeTarefasServiceImpl implements GerenciadorDeTarefasServ
   }
 
   public Tarefa criarTarefa(String titulo, String descricao, Date dataDeVencimento, Prioridade prioridade) {
-    if (titulo.isEmpty() || descricao.isEmpty() || dataDeVencimento == null || prioridade == null || !isValidDate(dataDeVencimento)) {
+    if (!isValidTarefa(new Tarefa(titulo, descricao, dataDeVencimento, prioridade))) {
       return null;
     }
 
     Tarefa novaTarefa = new Tarefa(titulo, descricao, dataDeVencimento, prioridade);
-    
     tarefasRepository.criarTarefa(novaTarefa);
     return novaTarefa;
   }
 
   public boolean atualizarTituloTarefa(String id, String novoTitulo) {
     Tarefa tarefa = getTarefa(id);
-    if (tarefa != null && novoTitulo != null && !novoTitulo.isEmpty()) {
+    if (!isNullOrEmpty(novoTitulo)) {
       tarefa.setTitulo(novoTitulo);
       return true;
     }
@@ -40,7 +39,7 @@ public class GerenciadorDeTarefasServiceImpl implements GerenciadorDeTarefasServ
 
   public boolean atualizarDataDeVencimentoTarefa(String id, Date novaDataDeVencimento) {
     Tarefa tarefa = getTarefa(id);
-    if (tarefa != null && novaDataDeVencimento != null) {
+    if (!isNullOrEmpty(novaDataDeVencimento.toString()) && isValidDate(novaDataDeVencimento)) {
       tarefa.setDataDeVencimento(novaDataDeVencimento);
       return true;
     }
@@ -49,7 +48,7 @@ public class GerenciadorDeTarefasServiceImpl implements GerenciadorDeTarefasServ
 
   public boolean atualizarPrioridadeTarefa(String id, Prioridade prioridade) {
     Tarefa tarefa = getTarefa(id);
-    if (tarefa != null && prioridade != null) {
+    if (!isNullOrEmpty(prioridade.toString())) {
       tarefa.setPrioridade(prioridade);
       return true;
     }
@@ -58,7 +57,7 @@ public class GerenciadorDeTarefasServiceImpl implements GerenciadorDeTarefasServ
 
   public boolean atualizarDescricaoTarefa(String id, String novaDescricao) {
     Tarefa tarefa = getTarefa(id);
-    if (tarefa != null && novaDescricao != null) {
+    if (!isNullOrEmpty(novaDescricao)) {
       tarefa.setDescricao(novaDescricao);
       return true;
     }
@@ -101,5 +100,17 @@ public class GerenciadorDeTarefasServiceImpl implements GerenciadorDeTarefasServ
       throw new NoSuchElementException("Tarefa não encontrada");
     }
     return tarefa;
+  }
+
+  private boolean isNullOrEmpty(String value) {
+    return value == null || value.isEmpty();
+  }
+
+  private boolean isValidTarefa(Tarefa tarefa) {
+    return tarefa != null && 
+      !isNullOrEmpty(tarefa.getTitulo()) &&
+      !isNullOrEmpty(tarefa.getDescricao()) &&
+      isValidDate(tarefa.getDataDeVencimento()) &&
+      tarefa.getPrioridade() != null;
   }
 }

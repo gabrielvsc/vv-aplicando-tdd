@@ -18,8 +18,7 @@ public class TarefasRepository {
   }
 
   public void excluirTarefa(String id) {
-    Tarefa tarefa = findById(id);
-    tarefas.remove(tarefa);
+    tarefas.removeIf(tarefa -> tarefa.getId().equals(id));
   }
 
   public List<Tarefa> listaDeTarefas() {
