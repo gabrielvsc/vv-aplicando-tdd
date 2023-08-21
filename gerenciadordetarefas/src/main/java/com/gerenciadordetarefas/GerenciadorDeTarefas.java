@@ -8,12 +8,12 @@ import com.gerenciadordetarefas.repositories.TarefasRepository;
 import com.gerenciadordetarefas.service.GerenciadorDeTarefasService;
 
 public class GerenciadorDeTarefas {
-    
-    GerenciadorDeTarefasService gerenciadorDeTarefasService;
+  
+  GerenciadorDeTarefasService gerenciadorDeTarefasService;
 
-    public GerenciadorDeTarefas() {
-        List<Tarefa> tarefas = new ArrayList<Tarefa>();
-        TarefasRepository tarefaRepository = new TarefasRepository(tarefas);
-        this.gerenciadorDeTarefasService = new GerenciadorDeTarefasService(tarefaRepository);
-    }
+  public GerenciadorDeTarefas() {
+    List<Tarefa> tarefas = new ArrayList<Tarefa>();
+    TarefasRepository tarefaRepository = new TarefasRepository(tarefas);
+    this.gerenciadorDeTarefasService = new GerenciadorDeTarefasService(tarefaRepository);
+  }
 }
