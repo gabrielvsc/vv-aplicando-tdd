@@ -1,6 +1,8 @@
 package org.ccc.ufcg.service;
 
 import org.ccc.ufcg.model.Voo;
+import org.ccc.ufcg.repository.BaseDeDados;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +20,11 @@ class AdminServiceImplTest {
     void setup() {
         adminService = new AdminServiceImlp();
         voo = new Voo("SPPB001",LocalDate.now(), LocalDateTime.now(), BigDecimal.valueOf(100.10), "Compina Grande PB","São Paulo SP", 80);
+    }
+
+    @AfterEach
+    void after() {
+        BaseDeDados.getVoos().clear();
     }
 
     @Test
