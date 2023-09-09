@@ -132,4 +132,23 @@ public class GerenciadorDeTarefasFunctionalPETest {
 
     assertFalse("A tarefa não deveria ter sido atualizada", atualizada);
   }
+
+  // [CT23] 3.1 Excluir uma tarefa existente
+  @Test
+  public void testCT23ExcluirTarefaExistente() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = criarTarefaCompleta(dataDeVencimento);
+    boolean excluida = gerenciador.excluirTarefa(tarefa.getId());
+
+    assertTrue("A tarefa deveria ter sido excluída", excluida);
+    assertFalse("A tarefa não deveria estar presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
+  }
+
+  // [CT24] 3.2 Tentar excluir uma tarefa inexistente
+  @Test
+  public void testCT24TentarExcluirTarefaInexistente() {
+    boolean excluida = gerenciador.excluirTarefa("Id-Nao-Existente");
+
+    assertFalse("A tarefa não deveria ter sido excluída", excluida);
+  }
 }
