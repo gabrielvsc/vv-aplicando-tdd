@@ -75,4 +75,61 @@ public class GerenciadorDeTarefasFunctionalPETest {
     assertNull("A tarefa deveria ser 'null'", tarefa);
     assertFalse("A tarefa não deveria estar presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
   }
+
+  // [CT18] 2.1 Atualizar título de uma tarefa
+  @Test
+  public void testCT18AtualizarTituloTarefa() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = criarTarefaCompleta(dataDeVencimento);
+    gerenciador.atualizarTituloTarefa(tarefa.getId(), "Novo Título");
+
+    assertNotNull("A tarefa não deveria ser 'null'", tarefa);
+    assertTrue("A tarefa não está presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
+    assertEquals("O título da tarefa não foi atualizado corretamente", "Novo Título", tarefa.getTitulo());
+  }
+
+  // [CT19] 2.2 Atualizar descrição de uma tarefa
+  @Test
+  public void testCT19AtualizarDescricaoTarefa() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = criarTarefaCompleta(dataDeVencimento);
+    gerenciador.atualizarDescricaoTarefa(tarefa.getId(), "Nova Descrição");
+
+    assertNotNull("A tarefa não deveria ser 'null'", tarefa);
+    assertTrue("A tarefa não está presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
+    assertEquals("A descrição da tarefa não foi atualizada corretamente", "Nova Descrição", tarefa.getDescricao());
+  }
+
+  // [CT20] 2.3 Atualizar data de vencimento de uma tarefa
+  @Test
+  public void testCT20AtualizarDataDeVencimentoTarefa() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = criarTarefaCompleta(dataDeVencimento);
+    Date novaDataDeVencimento = new Date(System.currentTimeMillis() + 2 * 86400000); // Data depois de amanhã
+    gerenciador.atualizarDataDeVencimentoTarefa(tarefa.getId(), novaDataDeVencimento);
+
+    assertNotNull("A tarefa não deveria ser 'null'", tarefa);
+    assertTrue("A tarefa não está presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
+    assertEquals("A data de vencimento da tarefa não foi atualizada corretamente", novaDataDeVencimento, tarefa.getDataDeVencimento());
+  }
+
+  // [CT21] 2.4 Atualizar prioridade de uma tarefa
+  @Test
+  public void testCT21AtualizarPrioridadeTarefa() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = criarTarefaCompleta(dataDeVencimento);
+    gerenciador.atualizarPrioridadeTarefa(tarefa.getId(), Prioridade.MEDIA);
+
+    assertNotNull("A tarefa não deveria ser 'null'", tarefa);
+    assertTrue("A tarefa não está presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
+    assertEquals("A prioridade da tarefa não foi atualizada corretamente", Prioridade.MEDIA, tarefa.getPrioridade());
+  }
+
+  // [CT22] 2.5 Tentar atualizar uma tarefa inexistente
+  @Test
+  public void testCT22TentarAtualizarTarefaInexistente() throws ParseException {
+    boolean atualizada = gerenciador.atualizarTituloTarefa("Id-Nao-Existente", "Novo Título");
+
+    assertFalse("A tarefa não deveria ter sido atualizada", atualizada);
+  }
 }
