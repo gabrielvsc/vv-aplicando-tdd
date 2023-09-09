@@ -149,4 +149,36 @@ public class GerenciadorDeTarefasFunctionalAVLTest {
     assertTarefaDetalhesIguais("Título incorreto", tarefa, "Título qualquer", "descrição qualquer", dataDeVencimento, Prioridade.MEDIA);
   }
 
+  // [CT11] Todas variáveis - Qualquer
+  @Test
+  public void testCT11TodasVariaveisQualquer() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = gerenciador.criarTarefa("Título qualquer", "descrição qualquer", dataDeVencimento, Prioridade.MEDIA);
+
+    assertNotNull("A tarefa não deveria ser 'null'", tarefa);
+    assertTrue("A tarefa não está presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
+    assertTarefaDetalhesIguais("Título incorreto", tarefa, "Título qualquer", "descrição qualquer", dataDeVencimento, Prioridade.MEDIA);
+  }
+
+  // [CT12] Todas variáveis - Máximo
+  @Test
+  public void testCT12TodasVariaveisMaximo() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = gerenciador.criarTarefa("Título qualquer", "descrição qualquer", dataDeVencimento, Prioridade.ALTA);
+
+    assertNotNull("A tarefa não deveria ser 'null'", tarefa);
+    assertTrue("A tarefa não está presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
+    // Não há limite máximo, então não é possível comparar com valores específicos.
+  }
+
+  // [CT13] Todas variáveis - Logo abaixo do máximo
+  @Test
+  public void testCT13TodasVariaveisLogoAbaixoDoMaximo() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = gerenciador.criarTarefa("Título qualquer", "descrição qualquer", dataDeVencimento, Prioridade.MEDIA);
+
+    assertNotNull("A tarefa não deveria ser 'null'", tarefa);
+    assertTrue("A tarefa não está presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
+    // Não há limite máximo, então não é possível comparar com valores específicos.
+  }
 }
