@@ -65,4 +65,14 @@ public class GerenciadorDeTarefasFunctionalPETest {
     assertNull("A tarefa deveria ser 'null'", tarefa);
     assertFalse("A tarefa não deveria estar presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
   }
+
+  // [CT17] 1.4 Criar uma tarefa com prioridade inválida
+  @Test
+  public void testCT17CriarTarefaComPrioridadeInvalida() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = gerenciador.criarTarefa("Título qualquer", "Descrição qualquer", dataDeVencimento, null);
+
+    assertNull("A tarefa deveria ser 'null'", tarefa);
+    assertFalse("A tarefa não deveria estar presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
+  }
 }
