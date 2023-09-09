@@ -56,4 +56,13 @@ public class GerenciadorDeTarefasFunctionalPETest {
     assertFalse("A tarefa não deveria estar presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
   }
 
+  // [CT16] 1.3 Criar uma tarefa com data de vencimento inválida
+  @Test
+  public void testCT16CriarTarefaComDataDeVencimentoInvalida() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() - 86400000); // Data passada
+    Tarefa tarefa = criarTarefaCompleta(dataDeVencimento);
+
+    assertNull("A tarefa deveria ser 'null'", tarefa);
+    assertFalse("A tarefa não deveria estar presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
+  }
 }
