@@ -46,4 +46,14 @@ public class GerenciadorDeTarefasFunctionalPETest {
     assertTrue("A tarefa não está presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
   }
 
+  // [CT15] 1.2 Criar uma tarefa sem título
+  @Test
+  public void testCT15CriarTarefaSemTitulo() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = gerenciador.criarTarefa("", "Descrição qualquer", dataDeVencimento, Prioridade.MEDIA);
+
+    assertNull("A tarefa deveria ser 'null'", tarefa);
+    assertFalse("A tarefa não deveria estar presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
+  }
+
 }
