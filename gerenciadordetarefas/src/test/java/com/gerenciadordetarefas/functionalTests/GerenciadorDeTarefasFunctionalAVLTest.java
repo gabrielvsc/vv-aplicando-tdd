@@ -61,4 +61,15 @@ public class GerenciadorDeTarefasFunctionalAVLTest {
     assertTarefaDetalhesIguais("Título incorreto", tarefa, "T", "descrição qualquer", dataDeVencimento, Prioridade.MEDIA);
   }
 
+  // [CT03] Variável Descrição - Mínimo
+  @Test
+  public void testCT03VariavelDescricaoMinimo() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = gerenciador.criarTarefa("Título qualquer", "d", dataDeVencimento, Prioridade.MEDIA);
+
+    assertNotNull("A tarefa não deveria ser 'null'", tarefa);
+    assertTrue("A tarefa não está presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
+    assertTarefaDetalhesIguais("Título incorreto", tarefa, "Título qualquer", "d", dataDeVencimento, Prioridade.MEDIA);
+  }
+
 }
