@@ -66,4 +66,24 @@ public class GerenciadorDeTarefasFunctionalTDTest {
     assertEquals(novaDataDeVencimento, tarefa.getDataDeVencimento());
     assertEquals(novaPrioridade, tarefa.getPrioridade());
   }
+  
+  // [CT29] Excluir Tarefa
+  @Test
+  public void testCT29ExcluirTarefa() {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    
+    Tarefa tarefa = criarTarefaCompleta(dataDeVencimento);
+
+    gerenciador.excluirTarefa(tarefa.getId());
+
+    assertFalse("A tarefa ainda está presente na lista após exclusão", gerenciador.listaDeTarefas().contains(tarefa));
+  }
+  
+  // [CT30] Listar Tarefas
+  public void testCT30ListarTarefas() {
+    List<Tarefa> listaVazia = gerenciador.listaDeTarefas();
+
+    assertNotNull("A lista de tarefas não deveria ser 'null'", listaVazia);
+    assertTrue("A lista de tarefas deveria estar vazia", listaVazia.isEmpty());
+  }
 }
