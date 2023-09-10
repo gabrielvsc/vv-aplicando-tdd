@@ -84,6 +84,6 @@ public class GerenciadorDeTarefasFunctionalTDTest {
     List<Tarefa> listaVazia = gerenciador.listaDeTarefas();
 
     assertNotNull("A lista de tarefas não deveria ser 'null'", listaVazia);
-    assertTrue("A lista de tarefas deveria estar vazia", listaVazia.isEmpty());
+    assertTrue("A lista de tarefas deveria ser vazia", listaVazia.isEmpty());
   }
 }
