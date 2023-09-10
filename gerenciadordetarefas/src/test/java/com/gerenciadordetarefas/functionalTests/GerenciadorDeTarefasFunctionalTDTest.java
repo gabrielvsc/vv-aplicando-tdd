@@ -43,4 +43,27 @@ public class GerenciadorDeTarefasFunctionalTDTest {
     assertTrue("A tarefa não está presente na lista", gerenciador.listaDeTarefas().contains(tarefa));
   }
 
+  // [CT28] Atualizar Tarefa
+  @Test
+  public void testCT28AtualizarTarefa() {
+    // Simulando uma tarefa existente
+    String tituloOriginal = "Tarefa Antiga";
+    Tarefa tarefa = gerenciador.criarTarefa(tituloOriginal, "Descrição antiga", new Date(System.currentTimeMillis() + 999), Prioridade.BAIXA);
+
+    // Atualizar a tarefa com novas informações
+    String novoTitulo = "Tarefa Atualizada";
+    String novaDescricao = "Descrição atualizada";
+    Date novaDataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Prioridade novaPrioridade = Prioridade.ALTA;
+
+    gerenciador.atualizarTituloTarefa(tarefa.getId(), novoTitulo);
+    gerenciador.atualizarDescricaoTarefa(tarefa.getId(), novaDescricao);
+    gerenciador.atualizarDataDeVencimentoTarefa(tarefa.getId(), novaDataDeVencimento);
+    gerenciador.atualizarPrioridadeTarefa(tarefa.getId(), novaPrioridade);
+
+    assertEquals(novoTitulo, tarefa.getTitulo());
+    assertEquals(novaDescricao, tarefa.getDescricao());
+    assertEquals(novaDataDeVencimento, tarefa.getDataDeVencimento());
+    assertEquals(novaPrioridade, tarefa.getPrioridade());
+  }
 }
