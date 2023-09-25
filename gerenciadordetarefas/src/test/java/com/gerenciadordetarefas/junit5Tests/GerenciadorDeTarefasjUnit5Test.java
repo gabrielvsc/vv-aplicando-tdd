@@ -231,4 +231,51 @@ public class GerenciadorDeTarefasjUnit5Test {
     assertTarefaDetalhesIguais(tarefa, "Título qualquer", "Descrição muito longa", dataDeVencimento, Prioridade.ALTA);
   }
 
+  @Test
+  @Order(14)
+  @DisplayName("CT14: 1.1 Criar Tarefa Válida")
+  @Tag("Partições de Equivalência")
+  public void testCT14CriarTarefaValida() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = criarTarefaCompleta(dataDeVencimento);
+
+    assertNotNull(tarefa);
+    assertTrue(gerenciador.listaDeTarefas().contains(tarefa));
+  }
+
+  @Test
+  @Order(15)
+  @DisplayName("CT15: 1.2 Criar Tarefa Sem Título")
+  @Tag("Partições de Equivalência")
+  public void testCT15CriarTarefaSemTitulo() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = gerenciador.criarTarefa("", "Descrição qualquer", dataDeVencimento, Prioridade.MEDIA);
+
+    assertNull(tarefa);
+    assertFalse(gerenciador.listaDeTarefas().contains(tarefa));
+  }
+
+  @Test
+  @Order(16)
+  @DisplayName("CT16: 1.3 Criar Tarefa com Data de Vencimento Inválida")
+  @Tag("Partições de Equivalência")
+  public void testCT16CriarTarefaComDataDeVencimentoInvalida() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() - 86400000); // Data passada
+    Tarefa tarefa = criarTarefaCompleta(dataDeVencimento);
+
+    assertNull(tarefa);
+    assertFalse(gerenciador.listaDeTarefas().contains(tarefa));
+  }
+
+  @Test
+  @Order(17)
+  @DisplayName("CT17: 1.4 Criar Tarefa com Prioridade Inválida")
+  @Tag("Partições de Equivalência")
+  public void testCT17CriarTarefaComPrioridadeInvalida() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = gerenciador.criarTarefa("Título qualquer", "Descrição qualquer", dataDeVencimento, null);
+
+    assertNull(tarefa);
+    assertFalse(gerenciador.listaDeTarefas().contains(tarefa));
+  }
 }
