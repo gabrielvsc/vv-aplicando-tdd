@@ -191,4 +191,44 @@ public class GerenciadorDeTarefasjUnit5Test {
     assertTrue(gerenciador.listaDeTarefas().contains(tarefa), "A tarefa não está presente na lista");
     assertTarefaDetalhesIguais(tarefa, "Título qualquer", "descrição qualquer", dataDeVencimento, Prioridade.ALTA);
   }
+
+  @Test
+  @Order(11)
+  @DisplayName("CT11: Todas variáveis - Máximo")
+  @Tag("Análise de Valores Limite")
+  public void testCT11TodasVariaveisMaximo() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000 * 365); // Data daqui a um ano
+    Tarefa tarefa = gerenciador.criarTarefa("Título muito longo", "Descrição muito longa", dataDeVencimento, Prioridade.ALTA);
+
+    assertNotNull(tarefa, "A tarefa não deveria ser 'null'");
+    assertTrue(gerenciador.listaDeTarefas().contains(tarefa), "A tarefa não está presente na lista");
+    assertTarefaDetalhesIguais(tarefa, "Título muito longo", "Descrição muito longa", dataDeVencimento, Prioridade.ALTA);
+  }
+
+  @Test
+  @Order(12)
+  @DisplayName("CT12: Variável Título - Máximo")
+  @Tag("Análise de Valores Limite")
+  public void testCT12VariavelTituloMaximo() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000 * 365); // Data daqui a um ano
+    Tarefa tarefa = gerenciador.criarTarefa("Título muito longo", "Descrição qualquer", dataDeVencimento, Prioridade.ALTA);
+
+    assertNotNull(tarefa, "A tarefa não deveria ser 'null'");
+    assertTrue(gerenciador.listaDeTarefas().contains(tarefa), "A tarefa não está presente na lista");
+    assertTarefaDetalhesIguais(tarefa, "Título muito longo", "Descrição qualquer", dataDeVencimento, Prioridade.ALTA);
+  }
+
+  @Test
+  @Order(13)
+  @DisplayName("CT13: Variável Descrição - Máximo")
+  @Tag("Análise de Valores Limite")
+  public void testCT13VariavelDescricaoMaximo() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000 * 365); // Data daqui a um ano
+    Tarefa tarefa = gerenciador.criarTarefa("Título qualquer", "Descrição muito longa", dataDeVencimento, Prioridade.ALTA);
+
+    assertNotNull(tarefa, "A tarefa não deveria ser 'null'");
+    assertTrue(gerenciador.listaDeTarefas().contains(tarefa), "A tarefa não está presente na lista");
+    assertTarefaDetalhesIguais(tarefa, "Título qualquer", "Descrição muito longa", dataDeVencimento, Prioridade.ALTA);
+  }
+
 }
