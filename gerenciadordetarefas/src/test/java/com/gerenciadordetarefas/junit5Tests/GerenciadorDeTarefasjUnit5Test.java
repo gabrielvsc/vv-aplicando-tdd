@@ -11,18 +11,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
 import com.gerenciadordetarefas.enums.Prioridade;
 import com.gerenciadordetarefas.model.Tarefa;
 import com.gerenciadordetarefas.repositories.TarefasRepository;
@@ -35,6 +32,13 @@ public class GerenciadorDeTarefasjUnit5Test {
 
   @BeforeAll
   public static void setup() {
+    List<Tarefa> tarefas = new ArrayList<>();
+    TarefasRepository tarefasRepository = new TarefasRepository(tarefas);
+    gerenciador = new GerenciadorDeTarefasServiceImpl(tarefasRepository);
+  }
+
+  @BeforeEach
+  public void setUp() {
     List<Tarefa> tarefas = new ArrayList<>();
     TarefasRepository tarefasRepository = new TarefasRepository(tarefas);
     gerenciador = new GerenciadorDeTarefasServiceImpl(tarefasRepository);
@@ -388,4 +392,67 @@ public class GerenciadorDeTarefasjUnit5Test {
     assertNotNull(listaVazia);
     assertTrue(listaVazia.isEmpty());
   } 
+
+  @Test
+  @Order(27)
+  @DisplayName("CT27: Criar Tarefa")
+  @Tag("Tabela de Decisão")
+  public void testCT27CriarTarefa() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = criarTarefaCompleta(dataDeVencimento);
+
+    assertNotNull(tarefa);
+    assertTrue(gerenciador.listaDeTarefas().contains(tarefa));
+  }
+
+  @Test
+  @Order(28)
+  @DisplayName("CT28: Atualizar Tarefa")
+  @Tag("Tabela de Decisão")
+  public void testCT28AtualizarTarefa() {
+    // Simulando uma tarefa existente
+    String tituloOriginal = "Tarefa Antiga";
+    Tarefa tarefa = gerenciador.criarTarefa(tituloOriginal, "Descrição antiga", new Date(System.currentTimeMillis() + 999), Prioridade.BAIXA);
+
+    // Atualizar a tarefa com novas informações
+    String novoTitulo = "Tarefa Atualizada";
+    String novaDescricao = "Descrição atualizada";
+    Date novaDataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Prioridade novaPrioridade = Prioridade.ALTA;
+
+    gerenciador.atualizarTituloTarefa(tarefa.getId(), novoTitulo);
+    gerenciador.atualizarDescricaoTarefa(tarefa.getId(), novaDescricao);
+    gerenciador.atualizarDataDeVencimentoTarefa(tarefa.getId(), novaDataDeVencimento);
+    gerenciador.atualizarPrioridadeTarefa(tarefa.getId(), novaPrioridade);
+
+    assertEquals(novoTitulo, tarefa.getTitulo());
+    assertEquals(novaDescricao, tarefa.getDescricao());
+    assertEquals(novaDataDeVencimento, tarefa.getDataDeVencimento());
+    assertEquals(novaPrioridade, tarefa.getPrioridade());
+  }
+
+  @Test
+  @Order(29)
+  @DisplayName("CT29: Excluir Tarefa")
+  @Tag("Tabela de Decisão")
+  public void testCT29ExcluirTarefa() {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    
+    Tarefa tarefa = criarTarefaCompleta(dataDeVencimento);
+
+    gerenciador.excluirTarefa(tarefa.getId());
+
+    assertFalse(gerenciador.listaDeTarefas().contains(tarefa));
+  }
+
+  @Test
+  @Order(30)
+  @DisplayName("CT30: Listar Tarefas")
+  @Tag("Tabela de Decisão")
+  public void testCT30ListarTarefas() {
+    List<Tarefa> listaVazia = gerenciador.listaDeTarefas();
+
+    assertNotNull(listaVazia);
+    assertTrue(listaVazia.isEmpty());
+  }
 }
