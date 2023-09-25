@@ -166,4 +166,29 @@ public class GerenciadorDeTarefasjUnit5Test {
     assertTarefaDetalhesIguais(tarefa, "Título qualquer", "de", dataDeVencimento, Prioridade.BAIXA);
   }
 
+  @Test
+  @Order(9)
+  @DisplayName("CT09: Variável Data de Vencimento - Logo acima do mínimo")
+  @Tag("Análise de Valores Limite")
+  public void testCT09VariavelDataVencimentoLogoAcimaDoMinimo() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = gerenciador.criarTarefa("Título qualquer", "descrição qualquer", dataDeVencimento, Prioridade.BAIXA);
+
+    assertNotNull(tarefa, "A tarefa não deveria ser 'null'");
+    assertTrue(gerenciador.listaDeTarefas().contains(tarefa), "A tarefa não está presente na lista");
+    assertTarefaDetalhesIguais(tarefa, "Título qualquer", "descrição qualquer", dataDeVencimento, Prioridade.BAIXA);
+  }
+
+  @Test
+  @Order(10)
+  @DisplayName("CT10: Variável Prioridade - Logo acima do mínimo")
+  @Tag("Análise de Valores Limite")
+  public void testCT10VariavelPrioridadeLogoAcimaDoMinimo() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = gerenciador.criarTarefa("Título qualquer", "descrição qualquer", dataDeVencimento, Prioridade.ALTA);
+
+    assertNotNull(tarefa, "A tarefa não deveria ser 'null'");
+    assertTrue(gerenciador.listaDeTarefas().contains(tarefa), "A tarefa não está presente na lista");
+    assertTarefaDetalhesIguais(tarefa, "Título qualquer", "descrição qualquer", dataDeVencimento, Prioridade.ALTA);
+  }
 }
