@@ -278,4 +278,71 @@ public class GerenciadorDeTarefasjUnit5Test {
     assertNull(tarefa);
     assertFalse(gerenciador.listaDeTarefas().contains(tarefa));
   }
+
+  @Test
+  @Order(18)
+  @DisplayName("CT18: 2.1 Atualizar Título de Tarefa")
+  @Tag("Partições de Equivalência")
+  public void testCT18AtualizarTituloTarefa() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = criarTarefaCompleta(dataDeVencimento);
+    gerenciador.atualizarTituloTarefa(tarefa.getId(), "Novo Título");
+
+    assertNotNull(tarefa);
+    assertTrue(gerenciador.listaDeTarefas().contains(tarefa));
+    assertEquals("Novo Título", tarefa.getTitulo());
+  }
+
+  @Test
+  @Order(19)
+  @DisplayName("CT19: 2.2 Atualizar Descrição de Tarefa")
+  @Tag("Partições de Equivalência")
+  public void testCT19AtualizarDescricaoTarefa() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = criarTarefaCompleta(dataDeVencimento);
+    gerenciador.atualizarDescricaoTarefa(tarefa.getId(), "Nova Descrição");
+
+    assertNotNull(tarefa);
+    assertTrue(gerenciador.listaDeTarefas().contains(tarefa));
+    assertEquals("Nova Descrição", tarefa.getDescricao());
+  }
+
+  @Test
+  @Order(20)
+  @DisplayName("CT20: 2.3 Atualizar Data de Vencimento de Tarefa")
+  @Tag("Partições de Equivalência")
+  public void testCT20AtualizarDataDeVencimentoTarefa() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = criarTarefaCompleta(dataDeVencimento);
+    Date novaDataDeVencimento = new Date(System.currentTimeMillis() + 2 * 86400000); // Data depois de amanhã
+    gerenciador.atualizarDataDeVencimentoTarefa(tarefa.getId(), novaDataDeVencimento);
+
+    assertNotNull(tarefa);
+    assertTrue(gerenciador.listaDeTarefas().contains(tarefa));
+    assertEquals(novaDataDeVencimento, tarefa.getDataDeVencimento());
+  }
+
+  @Test
+  @Order(21)
+  @DisplayName("CT21: 2.4 Atualizar Prioridade de Tarefa")
+  @Tag("Partições de Equivalência")
+  public void testCT21AtualizarPrioridadeTarefa() throws ParseException {
+    Date dataDeVencimento = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
+    Tarefa tarefa = criarTarefaCompleta(dataDeVencimento);
+    gerenciador.atualizarPrioridadeTarefa(tarefa.getId(), Prioridade.MEDIA);
+
+    assertNotNull(tarefa);
+    assertTrue(gerenciador.listaDeTarefas().contains(tarefa));
+    assertEquals(Prioridade.MEDIA, tarefa.getPrioridade());
+  }
+
+  @Test
+  @Order(22)
+  @DisplayName("CT22: 2.5 Tentar Atualizar Tarefa Inexistente")
+  @Tag("Partições de Equivalência")
+  public void testCT22TentarAtualizarTarefaInexistente() throws ParseException {
+    boolean atualizada = gerenciador.atualizarTituloTarefa("Id-Nao-Existente", "Novo Título");
+
+    assertFalse(atualizada);
+  }
 }
