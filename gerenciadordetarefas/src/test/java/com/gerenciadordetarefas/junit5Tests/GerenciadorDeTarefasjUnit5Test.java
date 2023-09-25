@@ -40,16 +40,6 @@ public class GerenciadorDeTarefasjUnit5Test {
     gerenciador = new GerenciadorDeTarefasServiceImpl(tarefasRepository);
   }
 
-  @BeforeEach
-  public void beforeEach() {
-    // Inicialização comum para cada teste
-  }
-
-  @AfterEach
-  public void afterEach() {
-    // Limpeza comum após cada teste
-  }
-
   private void assertTarefaDetalhesIguais(Tarefa tarefa, String titulo, String descricao, Date dataVencimento, Prioridade prioridade) {
     assertEquals(titulo, tarefa.getTitulo(), "Título Incorreto");
     assertEquals(descricao, tarefa.getDescricao(), "Descrição Incorreta");
@@ -377,12 +367,10 @@ public class GerenciadorDeTarefasjUnit5Test {
     Date dataVencimentoAmanha = new Date(System.currentTimeMillis() + 86400000); // Data de amanhã
     Date dataVencimentoDepoisAmanha = new Date(System.currentTimeMillis() + 172800000); // Data de depois de amanhã
 
-    // Criar tarefas com diferentes datas de vencimento e prioridades
     gerenciador.criarTarefa("Tarefa 1", "Descrição", dataVencimentoDepoisAmanha, Prioridade.BAIXA);
     gerenciador.criarTarefa("Tarefa 2", "Descrição", dataVencimentoAmanha, Prioridade.ALTA);
     gerenciador.criarTarefa("Tarefa 3", "Descrição", dataVencimentoDepoisAmanha, Prioridade.MEDIA);
 
-    // Listar as tarefas
     List<Tarefa> listaDeTarefas = gerenciador.listaDeTarefas();
 
     assertEquals("Tarefa 2", listaDeTarefas.get(0).getTitulo()); // Tarefa com prioridade alta e data de amanhã
