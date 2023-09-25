@@ -1,4 +1,21 @@
-- name: Upload coverage reports to Codecov
-  uses: codecov/codecov-action@v3
-  env:
-    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+name: Meu Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v2
+
+      # Outros passos para executar os testes
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
