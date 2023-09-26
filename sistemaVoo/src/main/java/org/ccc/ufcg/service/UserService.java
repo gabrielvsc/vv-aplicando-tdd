@@ -13,4 +13,6 @@ public interface UserService {
     Boolean cancelarVoo(Passageiro passageiro1, Voo voo);
 
     String gerarConfirmacao(Passageiro passageiro1, Voo vo2);
+
+    String listarVoo(String codigo);
 }
